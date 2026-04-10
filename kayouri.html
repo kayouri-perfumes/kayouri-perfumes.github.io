@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>KAYOURI | L'Extase Absolue · Haute Horlogerie & Parfums</title>
+    <!-- Google Fonts: Ultra-luxury pairing -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --onyx: #0A0A0A;
+            --midnight-velvet: #0F0F0F;
+            --champagne-gold: #F7E7CE;
+            --champagne-glow: rgba(247,231,206,0.6);
+            --rose-gold: #E4C7A2;
+            --pure-white: #FFFFFF;
+            --silver-mist: #E8E8E8;
+            --glass-edge: rgba(247,231,206,0.25);
+            --gold-gradient: linear-gradient(135deg, #F7E7CE 0%, #D4AF37 100%);
+            --shadow-extreme: 0 25px 45px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(247,231,206,0.1);
+            --transition-magnetic: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        body {
+            background-color: var(--onyx);
+            color: var(--silver-mist);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* ---- LUXURY BACKGROUND: ANIMATED GOLDEN DUST + DARK GRADIENT ---- */
+        .luxury-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, #0a0a0a, #000000);
+        }
+        .gold-dust {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.4;
+            background-image: radial-gradient(circle at 30% 40%, rgba(247,231,206,0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: dustMove 80s linear infinite;
+        }
+        @keyframes dustMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 200px 200px; }
+        }
+        /* animated gold wave overlay */
+        .gold-aurora {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            z-index: -1;
+            background: radial-gradient(ellipse at 40% 50%, rgba(215,175,70,0.08), transparent 60%);
+            animation: auroraShift 18s infinite alternate;
+            pointer-events: none;
+        }
+        @keyframes auroraShift {
+            0% { transform: translate(0%, 0%) rotate(0deg); opacity: 0.3; }
+            100% { transform: translate(5%, 5%) rotate(3deg); opacity: 0.6; }
+        }
+
+        /* ---- CUSTOM LUXURY CURSOR ---- */
+        .cursor-dot, .cursor-outline {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--champagne-gold);
+            transform: translate(-50%, -50%);
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1.5px solid var(--champagne-gold);
+            background: transparent;
+            transform: translate(-50%, -50%);
+            transition: all 0.15s ease-out;
+            backdrop-filter: blur(2px);
+        }
+        body:hover .cursor-dot, body:hover .cursor-outline { opacity: 1; }
+
+        /* ---- PREMIUM SCROLLBAR ---- */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0A0A0A; }
+        ::-webkit-scrollbar-thumb { background: var(--champagne-gold); border-radius: 8px; }
+
+        /* ---- TYPOGRAPHY & GLASS ---- */
+        h1, h2, h3, .logo, .hero-title, .gold-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+        .hero-title {
+            font-size: 7rem;
+            background: var(--gold-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 25px rgba(215,175,70,0.3);
+            animation: titleShimmer 6s infinite linear;
+        }
+        @keyframes titleShimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .glass-card {
+            background: rgba(15, 15, 15, 0.55);
+            backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(247,231,206,0.2);
+            border-radius: 32px;
+            transition: var(--transition-magnetic);
+        }
+        .glass-card:hover {
+            border-color: var(--champagne-gold);
+            box-shadow: 0 0 35px rgba(247,231,206,0.2), inset 0 0 15px rgba(247,231,206,0.05);
+            transform: scale(1.02);
+        }
+
+        /* Hero Video */
+        .hero-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            filter: brightness(0.4) contrast(1.2);
+        }
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 1100px;
+            padding: 2rem;
+        }
+        .gold-border-btn {
+            position: relative;
+            display: inline-block;
+            padding: 1.2rem 2.8rem;
+            background: transparent;
+            border: none;
+            color: var(--champagne-gold);
+            font-weight: 500;
+            letter-spacing: 4px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: 0.4s;
+            overflow: hidden;
+            z-index: 1;
+            cursor: pointer;
+        }
+        .gold-border-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 1.5px solid var(--champagne-gold);
+            transform: skewX(-12deg);
+            transition: 0.4s;
+            z-index: -1;
+        }
+        .gold-border-btn:hover::before {
+            transform: skewX(0deg);
+            background: var(--champagne-gold);
+            box-shadow: 0 0 28px var(--champagne-glow);
+        }
+        .gold-border-btn:hover { color: #0A0A0A; }
+
+        /* Sections */
+        .heritage, .featured, .watch-showcase, .ingredients, .boutique-luxury {
+            position: relative;
+            z-index: 2;
+        }
+        .heritage {
+            padding: 8rem 0;
+            background: radial-gradient(circle at 10% 20%, rgba(17,17,17,0.9), rgba(3,3,3,0.95));
+        }
+        .featured {
+            padding: 8rem 0;
+            background: rgba(15,15,15,0.7);
+            backdrop-filter: blur(2px);
+        }
+        .watch-showcase {
+            padding: 8rem 0;
+            background: radial-gradient(circle at 80% 30%, rgba(10,10,10,0.8), #010101);
+            border-top: 1px solid rgba(247,231,206,0.1);
+            border-bottom: 1px solid rgba(247,231,206,0.1);
+        }
+        .ingredients {
+            padding: 8rem 0;
+            background: radial-gradient(circle at 20% 40%, #0A0A0A, #020202);
+        }
+        .boutique-luxury {
+            position: relative;
+            padding: 7rem 0;
+            background-image: url('https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center 30%;
+        }
+        .boutique-luxury::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(3px);
+            z-index: 1;
+        }
+        /* product & watch grids */
+        .product-grid, .watch-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+        .product-3d-card, .watch-card {
+            background: rgba(12,12,12,0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(247,231,206,0.15);
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transform: translateY(0);
+        }
+        .product-3d-card:hover, .watch-card:hover {
+            transform: translateY(-20px) scale(1.02);
+            border-color: var(--champagne-gold);
+            box-shadow: 0 30px 50px -20px rgba(247,231,206,0.3);
+        }
+        .product-img, .watch-img {
+            width: 75%;
+            margin: 0 auto;
+            filter: drop-shadow(0 15px 15px rgba(0,0,0,0.5));
+            transition: filter 0.4s;
+        }
+        .product-3d-card:hover .product-img, .watch-card:hover .watch-img {
+            filter: drop-shadow(0 0 18px rgba(247,231,206,0.5));
+        }
+        .btn-inquire, .cart-btn {
+            background: transparent;
+            border: 1px solid var(--champagne-gold);
+            padding: 0.6rem 1.6rem;
+            border-radius: 40px;
+            color: var(--champagne-gold);
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .btn-inquire:hover, .cart-btn:hover {
+            background: var(--champagne-gold);
+            color: #000;
+            box-shadow: 0 0 15px var(--champagne-glow);
+        }
+        /* boutique container */
+        .boutique-container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: stretch;
+            justify-content: center;
+        }
+        .boutique-card {
+            flex: 1 1 300px;
+            max-width: 400px;
+            min-width: 280px;
+            background: rgba(10, 10, 10, 0.65);
+            backdrop-filter: blur(18px);
+            border-radius: 48px;
+            border: 1px solid rgba(247,231,206,0.3);
+            padding: 2.5rem;
+            transition: 0.4s;
+        }
+        .boutique-card:hover {
+            border-color: var(--champagne-gold);
+            transform: translateY(-6px);
+        }
+        .boutique-map {
+            flex: 0.9;
+            min-width: 280px;
+            border-radius: 48px;
+            overflow: hidden;
+            border: 1px solid rgba(247,231,206,0.4);
+        }
+        .boutique-map iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 380px;
+            border: 0;
+            filter: grayscale(20%) contrast(1.1);
+        }
+        .service-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        .service-list li {
+            margin: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .service-list i { color: var(--champagne-gold); width: 24px; }
+        .floating-ingredient {
+            animation: floatSlow 5s infinite alternate ease-in-out;
+        }
+        @keyframes floatSlow {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-12px); }
+        }
+        /* reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(45px);
+            transition: opacity 0.9s cubic-bezier(0.2, 0.9, 0.4, 1), transform 0.9s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* responsive header + mobile menu */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        /* hamburger hidden by default (desktop) */
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1000px) {
+            .hero-title { font-size: 4rem; }
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+
+            /* mobile hamburger: three stacked spans as lines */
+            .hamburger {
+            display: inline-flex;
+            width: 44px;
+            height: 36px;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 6px;
+            -webkit-tap-highlight-color: transparent;
+            }
+            .hamburger span {
+            display: block;
+            width: 24px;
+            height: 3px;
+            background: var(--champagne-gold);
+            border-radius: 2px;
+            transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease;
+            }
+
+            /* optional visual when menu open — toggle by setting aria-expanded on the button */
+            .hamburger[aria-expanded="true"] span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+            }
+            .hamburger[aria-expanded="true"] span:nth-child(2) {
+            opacity: 0;
+            }
+            .hamburger[aria-expanded="true"] span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+            }
+
+            .nav-links {
+            position: fixed;
+            top: 70px;
+            left: -100%;
+            width: 80%;
+            height: calc(100vh - 70px);
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            transition: 0.4s;
+            z-index: 999;
+            border-right: 1px solid var(--champagne-gold);
+            }
+            .nav-links.active {
+            left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.8rem; }
+            .boutique-container { flex-direction: column; }
+            .split-layout { flex-direction: column; }
+            .section-title { font-size: 2rem; }
+        }
+        .split-layout {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .split-layout > div { flex: 1; min-width: 280px; }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        footer {
+            background: #050505;
+            padding: 3rem 0 2rem;
+            border-top: 1px solid rgba(247,231,206,0.1);
+            position: relative;
+            z-index: 2;
+        }
+        .social-icon {
+            font-size: 1.8rem;
+            transition: all 0.3s;
+            color: var(--silver-mist);
+        }
+        .social-icon:hover {
+            color: var(--champagne-gold);
+            transform: translateY(-6px);
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--champagne-gold);
+            text-decoration: none;
+        }
+        header a {
+            color: #ddd;
+            text-decoration: none;
+            font-weight: 400;
+            transition: 0.3s;
+        }
+        header a:hover { color: var(--champagne-gold); }
+        .btn-boutique {
+            display: inline-block;
+            margin-top: 1.2rem;
+            padding: 0.8rem 2rem;
+            background: transparent;
+            border: 1px solid var(--champagne-gold);
+            color: var(--champagne-gold);
+            border-radius: 40px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .btn-boutique:hover {
+            background: var(--champagne-gold);
+            color: #000;
+        }
+        </style>
+    </head>
+    <body>
+    <div class="luxury-bg"></div>
+    <div class="gold-dust"></div>
+    <div class="gold-aurora"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header style="position: fixed; top: 0; left: 0; width: 100%; z-index: 100; background: rgba(5,5,5,0.7); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(247,231,206,0.2);">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem;">
+        <a href="#" class="logo" style="display: flex; align-items: center; gap: 10px;">
+        <img src="logo.png" at="logo" style="height: 80px; width: auto;">KAYOURI</a>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">HOME</a></li>
+            <li><a href="#heritage">MAISON</a></li>
+            <li><a href="#collection">PARFUMS</a></li>
+            <li><a href="#ingredients">INGRÉDIENTS</a></li>
+            <li><a href="#boutique">BOUTIQUE</a></li>
+        </ul>
+        </div>
+    </header>
+
+<main>
+    <section id="home" class="hero">
+        <video autoplay muted loop playsinline class="hero-video-bg">
+            <source src="https://player.vimeo.com/external/396079782.hd.mp4?s=7a6ecbefd29b6c7dff8a4c5f3a9a822d0b868ed0&profile_id=174" type="video/mp4">
+        </source></video>
+        <div class="hero-content">
+            <h1 class="hero-title reveal">KAYOURI PERFUME</h1>
+            <p class="reveal" style="font-size: 1.3rem; letter-spacing: 8px; margin: 1rem 0 2rem; font-weight: 200;">L'Extase Absolue · Haute Horlogerie</p>
+            <button class="gold-border-btn reveal" id="insaneDiscoverBtn">DISCOVER THE RITUAL</button>
+        </div>
+    </section>
+
+    <section id="heritage" class="heritage">
+        <div class="container split-layout">
+            <div class="reveal">
+                <span style="color: var(--champagne-gold); letter-spacing: 3px;">DEPUIS 1972</span>
+                <h2 style="font-size: 3.5rem; font-family: 'Cormorant Garamond'; margin: 1rem 0; color: var(--pure-white);">The Alchemy of <br>Infinite Elegance</h2>
+                <p style="margin: 1rem 0;">Kayouri is not merely a perfume — it is an heirloom. Each drop is macerated for 18 months in crystal vats, marrying the rarest absolutes from Grasse and the Orient. Our olfactory pyramids are architectural, built to last on skin like liquid gold.</p>
+                <div style="border-left: 2px solid var(--champagne-gold); padding-left: 1.5rem; margin-top: 2rem;">
+                    <p style="font-style: italic;">"Perfume is the art that evokes the invisible."<br>— Jean-Baptiste Grenouille, Maître Parfumeur</p>
+                </div>
+            </div>
+            <div class="reveal">
+                <img src="https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=600&auto=format" alt="Luxury perfume crafting" style="width: 100%; border-radius: 32px; box-shadow: var(--shadow-extreme);">
+            </div>
+        </div>
+    </section>
+
+    <section id="collection" class="featured">
+        <div class="container">
+            <div class="reveal" style="text-align: center; margin-bottom: 4rem;">
+                <span class="gold-text" style="font-size: 1rem; letter-spacing: 5px;">HAUTE PARFUMERIE</span>
+                <h2 style="font-size: 3rem; color: var(--champagne-gold);">The Extrait Collection</h2>
+                <div style="width: 80px; height: 2px; background: var(--champagne-gold); margin: 1rem auto;"></div>
+            </div>
+            <div class="product-grid">
+                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.00.45.jpeg" alt="STRONGER WITH YOU INTENSLY - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">STRONGER WITH YOU INTENSLY</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20Stronger%20With%20You%20INTENSELY" target="_blank"><button class="cart-btn" data-name="STRONGER WITH YOU INTENSELY">go to shop</button></a></div>
+                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.02.56.jpeg" alt="STRONGER WITH YOU ABSOLUTELY - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">STRONGER WITH YOU ABSOLUTELY</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20Stronger%20With%20You%20ABSOLUTELY" target="_blank"><button class="cart-btn" data-name="STRONGER WITH YOU ABSOLUTELY">go to shop</button><a></div>
+                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.04.43.jpeg" alt="XERJOFF EBRA PORA - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">XERJOFF EBRA PORA</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">319 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20XERJOFF%20EBRA%20PORA" target="_blank"><button class="cart-btn" data-name="EBRA PORA">go to shop</button></a></div>
+                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.06.04.jpeg" alt="XERJOFF NAXOS - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">XERJOFF NAXOS</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">319 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20XERJOFF%20NAXOS" target="_blank"><button class="cart-btn" data-name="NAXOS">go to shop</button></a></div>
+                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.08.05.jpeg" alt="SCANDAL JEAN PAUL GAULTIER - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">SCANDAL JEAN PAUL GAULTIER</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">319 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20SCANDAL%20JEAN%20PAUL%20GAULTIER" target="_blank"><button class="cart-btn" data-name="SCANDAL JEAN PAUL GAULTIER">go to shop</button></a></div>
+                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.09.21.jpeg" alt="VERSACE EROS - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">VERSACE EROS</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">289 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20VERSACE%20EROS" target="_blank"><button class="cart-btn" data-name="VERSACE EROS">go to shop</button></a></div>
+                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.11.21.jpeg" alt="SAUVAGE DIOR - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">SAUVAGE Dior</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20SAUVAGE%20Dior" target="_blank"><button class="cart-btn" data-name="SAUVAGE Dior">go to shop</button></a></div>
+                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.13.55.jpeg" alt="COCO MADEMOISELLE CHANEL paris - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">COCO MADEMOISELLE CHANEL paris</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20COCO%20MADEMOISELLE%20CHANEL%20paris" target="_blank"><button class="cart-btn" data-name="COCO MADEMOISELLE CHANEL paris">go to shop</button></a></div>
+                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 19.46.00.jpeg" alt="ROYAL ESSENCE DELINA - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">ROYAL ESSENCE DELINA</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">340 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20ROYAL%20ESSENCE%20DELINA" target="_blank"><button class="cart-btn" data-name="PARFUMS DE MARLY">go to shop</button></a></div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="ingredients" class="ingredients">
+        <div class="container">
+            <div class="reveal" style="text-align: center;"><h2 style="font-size: 3rem; color: var(--champagne-gold);">Rarefied Raw Materials</h2><div style="width: 100px; height: 1px; background: var(--champagne-gold); margin: 1rem auto 2rem;"></div></div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;">
+                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 0.5s;">🐚 Ambergris Tincture</div>
+                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 0.8s;">🌾 Orris Butter 25Y</div>
+                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 1s;">🔥 Somalian Frankincense</div>
+                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 0.3s;">🍂 Saffron Crocus Sativa</div>
+            </div>
+            <p class="reveal" style="text-align: center; margin-top: 3rem; font-size: 0.9rem;">Each ingredient undergoes 3-year aging in cellars beneath Versailles</p>
+        </div>
+    </section>
+
+    <section id="boutique" class="boutique-luxury">
+        <div class="boutique-container">
+            <div class="boutique-card reveal">
+                <h3><i class="fas fa-map-pin" style="color: var(--champagne-gold);"></i> Kayouri Atelier · Martil</h3>
+                <div style="margin: 1rem 0; border-left: 3px solid var(--champagne-gold); padding-left: 1rem;"><i class="fas fa-location-dot"></i> Next to Main Traffic Light (Stop Lekbir), Martil, Morocco</div>
+                <p style="margin: 1rem 0;">"A sanctuary of olfactory brilliance & horological precision."</p>
+                <ul class="service-list"><li><i class="fas fa-perfume"></i> Curated Collection: Women · Men · Unisex</li><li><i class="fas fa-sunglasses"></i> Premium Sunglasses · Haute Couture Eyewear</li><li><i class="fas fa-clock"></i> High-End Swiss Watches · Limited Editions</li><li><i class="fas fa-tools"></i> <strong>Expert Service:</strong> Professional watch maintenance & size adjustment (links add/remove) on‑site</li></ul>
+            </div>
+            <div class="boutique-map reveal"><div style="position: absolute; z-index: 10; background: rgba(0,0,0,0.6); padding: 5px 12px; border-radius: 40px; margin: 15px;"><i class="fas fa-map-marker-alt"></i> GOLD PIN</div><iframe src="https://maps.google.com/maps?q=Martil%2C%20Morocco%20Stop%20Lekbir&t=&z=16&ie=UTF8&iwloc=&output=embed" title="Kayouri Boutique Martil Map" allowfullscreen="" loading="lazy"></iframe></div>
+        </div>
+        <div class="container" style="text-align: center; margin-top: 2rem;"><p class="reveal" style="color: var(--champagne-gold); letter-spacing: 3px;">VISIT US IN THE HEART OF MARTIL — WHERE LUXURY MEETS THE MEDITERRANEAN</p></div>
+    </section>
+</main>
+
+<footer>
+    <div class="container"><div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; align-items: center;"><div><h3 style="font-family: 'Cormorant Garamond'; color: var(--champagne-gold);">KAYOURI</h3><p style="font-size: 0.8rem;">L'Art de la Perfection · Horlogerie & Parfums</p></div><div><h4>Subscribe to the Atelier</h4><div style="display: flex; gap: 0.5rem;"><input type="email" id="luxeEmail" placeholder="Your private email" style="background: #1a1a1a; border: 1px solid #3a3a3a; padding: 0.6rem 1rem; color: white;"><button id="insaneSubscribeBtn" style="background: var(--champagne-gold); border: none; padding: 0 1.5rem; color: black;">ENVOYER</button></div></div><div style="display: flex; gap: 1.8rem;"><a href="#" class="social-icon"><i class="fab fa-instagram"></i></a><a href="#" class="social-icon"><i class="fab fa-youtube"></i></a><a href="#" class="social-icon"><i class="fab fa-x-twitter"></i></a></div></div><div style="text-align: center; margin-top: 3rem; font-size: 0.7rem;">© 2025 KAYOURI — L’Art de la Perfection. All rights reserved.</div></div>
+</footer>
+
+<script>
+    (function(){
+        // cursor
+        const dot=document.querySelector('.cursor-dot'), outline=document.querySelector('.cursor-outline');
+        if(dot&&outline){ window.addEventListener('mousemove',e=>{ dot.style.left=e.clientX+'px'; dot.style.top=e.clientY+'px'; outline.style.left=e.clientX+'px'; outline.style.top=e.clientY+'px'; });
+        document.querySelectorAll('a,button,.cart-btn,.btn-inquire,.gold-border-btn,.btn-boutique').forEach(el=>{ el.addEventListener('mouseenter',()=>{ outline.style.transform='translate(-50%, -50%) scale(1.6)'; outline.style.borderColor='#F7E7CE'; outline.style.background='rgba(247,231,206,0.1)'; });
+        el.addEventListener('mouseleave',()=>{ outline.style.transform='translate(-50%, -50%) scale(1)'; outline.style.borderColor='#F7E7CE'; outline.style.background='transparent'; }); }); }
+        // reveal observer
+        const reveals=document.querySelectorAll('.reveal');
+        const obs=new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('active'); obs.unobserve(e.target); } }); },{threshold:0.15});
+        reveals.forEach(r=>obs.observe(r));
+        // smooth scroll
+        function smooth(t){ const el=document.querySelector(t); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
+        document.getElementById('insaneDiscoverBtn')?.addEventListener('click',()=>smooth('#collection'));
+        document.querySelectorAll('header a').forEach(link=>{ link.addEventListener('click',(e)=>{ e.preventDefault(); const href=link.getAttribute('href'); if(href&&href!=='#') smooth(href); }); });
+        document.querySelector('.btn-boutique')?.addEventListener('click',(e)=>{ e.preventDefault(); alert("Private appointment request: Our concierge will contact you within 24 hours."); });
+        const sub=document.getElementById('insaneSubscribeBtn'), emailF=document.getElementById('luxeEmail');
+        if(sub) sub.addEventListener('click',()=>{ let email=emailF.value.trim(); if(email&&email.includes('@')){ alert(`✨ Welcome, ${email}. You'll receive private launches & watch unveilings.`); emailF.value=''; } else alert('Valid email required for Maison Kayouri.'); });
+        // tilt effect
+        document.querySelectorAll('.tilt-card').forEach(card=>{ card.addEventListener('mousemove',e=>{ const rect=card.getBoundingClientRect(); const x=e.clientX-rect.left, y=e.clientY-rect.top; const rx=(y-rect.height/2)/20, ry=(rect.width/2-x)/20; card.style.transform=`perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.01)`; }); card.addEventListener('mouseleave',()=>{ card.style.transform='perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)'; }); });
+        // mobile hamburger
+        const hamburger=document.getElementById('hamburgerBtn'), navLinks=document.getElementById('navLinks');
+        if(hamburger){ hamburger.addEventListener('click',()=>{ navLinks.classList.toggle('active'); }); document.querySelectorAll('.nav-links a').forEach(link=>{ link.addEventListener('click',()=>{ navLinks.classList.remove('active'); }); }); }
+    })();
+</script>
+</body>
+</html>
