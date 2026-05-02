@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>KAYOURI | L'Extase Absolue · Haute Horlogerie & Parfums</title>
+    <title>كايوري | النشوة المطلقة · صناعة الساعات الراقية والعطور</title>
     <!-- Google Fonts: Ultra-luxury pairing -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome 6 -->
@@ -37,6 +37,7 @@
             overflow-x: hidden;
             line-height: 1.5;
         }
+        html[dir="rtl"] body { direction: rtl; }
 
         /* ---- LUXURY BACKGROUND: ANIMATED GOLDEN DUST + DARK GRADIENT ---- */
         .luxury-bg {
@@ -175,11 +176,13 @@
         }
         .gold-border-btn {
             position: relative;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
             padding: 1.2rem 2.8rem;
             background: transparent;
             border: none;
-            color: var(--champagne-gold);
+            color: var(--pure-white);
             font-weight: 500;
             letter-spacing: 4px;
             font-size: 0.9rem;
@@ -207,6 +210,12 @@
             box-shadow: 0 0 28px var(--champagne-glow);
         }
         .gold-border-btn:hover { color: #0A0A0A; }
+        .arrow-icon {
+            font-size: 0.95rem;
+            transform: translateY(1px);
+            transition: transform 0.3s ease;
+        }
+        .gold-border-btn:hover .arrow-icon { transform: translateX(-4px) translateY(1px); }
 
         /* Sections */
         .heritage, .featured, .watch-showcase, .ingredients, .boutique-luxury {
@@ -268,7 +277,7 @@
             transform: translateY(0);
         }
         .product-3d-card:hover, .watch-card:hover {
-            transform: translateY(-20px) scale(1.02);
+            transform: translateY(-8px) scale(1.03);
             border-color: var(--champagne-gold);
             box-shadow: 0 30px 50px -20px rgba(247,231,206,0.3);
         }
@@ -350,6 +359,7 @@
             gap: 0.8rem;
         }
         .service-list i { color: var(--champagne-gold); width: 24px; }
+        html[dir="rtl"] .service-list li { flex-direction: row-reverse; }
         .floating-ingredient {
             animation: floatSlow 5s infinite alternate ease-in-out;
         }
@@ -438,6 +448,16 @@
             .nav-links.active {
             left: 0;
             }
+            html[dir="rtl"] .nav-links {
+            left: auto;
+            right: -100%;
+            border-right: none;
+            border-left: 1px solid var(--champagne-gold);
+            }
+            html[dir="rtl"] .nav-links.active {
+            left: auto;
+            right: 0;
+            }
         }
 
         @media (max-width: 768px) {
@@ -515,17 +535,17 @@
         <div class="container" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem;">
         <a href="#" class="logo" style="display: flex; align-items: center; gap: 10px;">
         <img src="logo.png" at="logo" style="height: 80px; width: auto;">KAYOURI</a>
-        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
+        <button class="hamburger" id="hamburgerBtn" aria-label="تبديل القائمة" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
         </button>
         <ul class="nav-links" id="navLinks">
-            <li><a href="#home">HOME</a></li>
-            <li><a href="#heritage">MAISON</a></li>
-            <li><a href="#collection">PARFUMS</a></li>
-            <li><a href="#ingredients">INGRÉDIENTS</a></li>
-            <li><a href="#boutique">BOUTIQUE</a></li>
+            <li><a href="#home">الرئيسية</a></li>
+            <li><a href="#womens-perfumes">عطور نسائية</a></li>
+            <li><a href="#mens-perfumes">عطور رجالية</a></li>
+            <li><a href="#ingredients">المكونات</a></li>
+            <li><a href="#boutique">البوتيك</a></li>
         </ul>
         </div>
     </header>
@@ -537,46 +557,156 @@
         </source></video>
         <div class="hero-content">
             <h1 class="hero-title reveal">KAYOURI PERFUME</h1>
-            <p class="reveal" style="font-size: 1.3rem; letter-spacing: 8px; margin: 1rem 0 2rem; font-weight: 200;">L'Extase Absolue · Haute Horlogerie</p>
-            <button class="gold-border-btn reveal" id="insaneDiscoverBtn">DISCOVER THE RITUAL</button>
-        </div>
-    </section>
-
-    <section id="heritage" class="heritage">
-        <div class="container split-layout">
-            <div class="reveal">
-                <span style="color: var(--champagne-gold); letter-spacing: 3px;">DEPUIS 1972</span>
-                <h2 style="font-size: 3.5rem; font-family: 'Cormorant Garamond'; margin: 1rem 0; color: var(--pure-white);">The Alchemy of <br>Infinite Elegance</h2>
-                <p style="margin: 1rem 0;">Kayouri is not merely a perfume — it is an heirloom. Each drop is macerated for 18 months in crystal vats, marrying the rarest absolutes from Grasse and the Orient. Our olfactory pyramids are architectural, built to last on skin like liquid gold.</p>
-                <div style="border-left: 2px solid var(--champagne-gold); padding-left: 1.5rem; margin-top: 2rem;">
-                    <p style="font-style: italic;">"Perfume is the art that evokes the invisible."<br>— Jean-Baptiste Grenouille, Maître Parfumeur</p>
-                </div>
-            </div>
-            <div class="reveal">
-                <img src="https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=600&auto=format" alt="Luxury perfume crafting" style="width: 100%; border-radius: 32px; box-shadow: var(--shadow-extreme);">
-            </div>
+            <p class="reveal" style="font-size: 1.3rem; letter-spacing: 8px; margin: 1rem 0 2rem; font-weight: 200;">النشوة المطلقة · صناعة الساعات الراقية</p>
+            <button class="gold-border-btn reveal" id="insaneDiscoverBtn">اكتشف المزيد <i class="fas fa-arrow-left-long arrow-icon"></i></button>
         </div>
     </section>
 
     <section id="collection" class="featured">
         <div class="container">
             <div class="reveal" style="text-align: center; margin-bottom: 4rem;">
-                <span class="gold-text" style="font-size: 1rem; letter-spacing: 5px;">HAUTE PARFUMERIE</span>
-                <h2 style="font-size: 3rem; color: var(--champagne-gold);">The Extrait Collection</h2>
+                <span class="gold-text" style="font-size: 1rem; letter-spacing: 5px;">العطور الراقية</span>
+                <h2 style="font-size: 3rem; color: var(--champagne-gold);">مجموعة العطور</h2>
                 <div style="width: 80px; height: 2px; background: var(--champagne-gold); margin: 1rem auto;"></div>
             </div>
-            <div class="product-grid">
-                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.00.45.jpeg" alt="STRONGER WITH YOU INTENSLY - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">STRONGER WITH YOU INTENSLY</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20Stronger%20With%20You%20INTENSELY" target="_blank"><button class="cart-btn" data-name="STRONGER WITH YOU INTENSELY">go to shop</button></a></div>
-                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.02.56.jpeg" alt="STRONGER WITH YOU ABSOLUTELY - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">STRONGER WITH YOU ABSOLUTELY</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20Stronger%20With%20You%20ABSOLUTELY" target="_blank"><button class="cart-btn" data-name="STRONGER WITH YOU ABSOLUTELY">go to shop</button><a></div>
-                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.04.43.jpeg" alt="XERJOFF EBRA PORA - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">XERJOFF EBRA PORA</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">319 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20XERJOFF%20EBRA%20PORA" target="_blank"><button class="cart-btn" data-name="EBRA PORA">go to shop</button></a></div>
-                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.06.04.jpeg" alt="XERJOFF NAXOS - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">XERJOFF NAXOS</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">319 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20XERJOFF%20NAXOS" target="_blank"><button class="cart-btn" data-name="NAXOS">go to shop</button></a></div>
-                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.08.05.jpeg" alt="SCANDAL JEAN PAUL GAULTIER - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">SCANDAL JEAN PAUL GAULTIER</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">319 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20SCANDAL%20JEAN%20PAUL%20GAULTIER" target="_blank"><button class="cart-btn" data-name="SCANDAL JEAN PAUL GAULTIER">go to shop</button></a></div>
-                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.09.21.jpeg" alt="VERSACE EROS - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">VERSACE EROS</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">289 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20VERSACE%20EROS" target="_blank"><button class="cart-btn" data-name="VERSACE EROS">go to shop</button></a></div>
-                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.11.21.jpeg" alt="SAUVAGE DIOR - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">SAUVAGE Dior</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20SAUVAGE%20Dior" target="_blank"><button class="cart-btn" data-name="SAUVAGE Dior">go to shop</button></a></div>
-                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 05.13.55.jpeg" alt="COCO MADEMOISELLE CHANEL paris - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">COCO MADEMOISELLE CHANEL paris</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20COCO%20MADEMOISELLE%20CHANEL%20paris" target="_blank"><button class="cart-btn" data-name="COCO MADEMOISELLE CHANEL paris">go to shop</button></a></div>
-                <div class="product-3d-card reveal tilt-card"><img class="product-img" src="WhatsApp Image 2026-04-10 at 19.46.00.jpeg" alt="ROYAL ESSENCE DELINA - KAYOURI PARFUM"><h3 style="font-size: 1.8rem; margin: 1rem 0;">ROYAL ESSENCE DELINA</h3><div style="font-size: 1.5rem; margin: 0.8rem 0;">340 DH</div><a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20ROYAL%20ESSENCE%20DELINA" target="_blank"><button class="cart-btn" data-name="PARFUMS DE MARLY">go to shop</button></a></div>
+            <div id="womens-perfumes" class="reveal" style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2.6rem; color: var(--champagne-gold);">عطور نسائية</h2>
             </div>
-        </div>
+            <div class="product-grid" style="margin-bottom: 5rem;">
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="parfum4.jpeg" alt="BLACK OPIUM YVES SAINT LAURENT">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">BLACK OPIUM YVES SAINT LAURENT</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">350 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20BLACK%20OPIUM%20YVES%20SAINT%20LAURENT" target="_blank">
+                        <button class="cart-btn" data-name="BLACK OPIUM YVES SAINT LAURENT">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="parfum7.jpeg" alt="DOLCE & GABBANA LIGHT BLUE">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">DOLCE & GABBANA LIGHT BLUE</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20DOLCE%20%26%20GABBANA%20LIGHT%20BLUE" target="_blank">
+                        <button class="cart-btn" data-name="DOLCE & GABBANA LIGHT BLUE">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="WhatsApp Image 2026-04-10 at 05.13.55.jpeg" alt="COCO MADEMOISELLE CHANEL PARIS">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">COCO MADEMOISELLE CHANEL PARIS</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20COCO%20MADEMOISELLE%20CHANEL%20PARIS" target="_blank">
+                        <button class="cart-btn" data-name="COCO MADEMOISELLE CHANEL PARIS">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="WhatsApp Image 2026-04-10 at 19.46.00.jpeg" alt="DELINA EXCLUSIF">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">DELINA EXCLUSIF</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">340 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20DELINA%20EXCLUSIF" target="_blank">
+                        <button class="cart-btn" data-name="DELINA EXCLUSIF">اضغط للطلب</button>
+                    </a>
+                </div>
+            </div>
+            <div id="mens-perfumes" class="reveal" style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2.6rem; color: var(--champagne-gold);">عطور رجالية</h2>
+            </div>
+            <div class="product-grid">
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="parfum1.jpeg" alt="CREED AVENTUS">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">CREED AVENTUS</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">349 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20CREED%20AVENTUS" target="_blank">
+                        <button class="cart-btn" data-name="CREED AVENTUS">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="parfum2.jpeg" alt="JEAN PAUL GAULTIER LE BEAU LE PARFUM">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">JEAN PAUL GAULTIER LE BEAU LE PARFUM</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20JEAN%20PAUL%20GAULTIER%20LE%20BEAU%20LE%20PARFUM" target="_blank">
+                        <button class="cart-btn" data-name="JEAN PAUL GAULTIER LE BEAU LE PARFUM">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="parfum3.jpeg" alt="JEAN PAUL GAULTIER LE MALE ELIXIR">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">JEAN PAUL GAULTIER LE MALE ELIXIR</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">349 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20JEAN%20PAUL%20GAULTIER%20LE%20MALE%20ELIXIR" target="_blank">
+                        <button class="cart-btn" data-name="JEAN PAUL GAULTIER LE MALE ELIXIR">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="parfum5.jpeg" alt="SCANDAL JEAN PAUL GAULTIER ABSOLU">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">SCANDAL JEAN PAUL GAULTIER ABSOLU</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">289 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20SCANDAL%20JEAN%20PAUL%20GAULTIER%20ABSOLU" target="_blank">
+                        <button class="cart-btn" data-name="SCANDAL JEAN PAUL GAULTIER ABSOLU">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="parfum6.jpeg" alt="VERSACE EROS FLAME">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">VERSACE EROS FLAME</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">259 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20VERSACE%20EROS%20FLAME" target="_blank">
+                        <button class="cart-btn" data-name="VERSACE EROS FLAME">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="WhatsApp Image 2026-04-10 at 05.00.45.jpeg" alt="STRONGER WITH YOU INTENSELY">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">STRONGER WITH YOU INTENSELY</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20STRONGER%20WITH%20YOU%20INTENSELY" target="_blank">
+                        <button class="cart-btn" data-name="STRONGER WITH YOU INTENSELY">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="WhatsApp Image 2026-04-10 at 05.02.56.jpeg" alt="STRONGER WITH YOU ABSOLUTELY">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">STRONGER WITH YOU ABSOLUTELY</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20STRONGER%20WITH%20YOU%20ABSOLUTELY" target="_blank">
+                        <button class="cart-btn" data-name="STRONGER WITH YOU ABSOLUTELY">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="WhatsApp Image 2026-04-10 at 05.04.43.jpeg" alt="XERJOFF EBRA PORA">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">XERJOFF EBRA PORA</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">319 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20XERJOFF%20EBRA%20PORA" target="_blank">
+                        <button class="cart-btn" data-name="XERJOFF EBRA PORA">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="WhatsApp Image 2026-04-10 at 05.06.04.jpeg" alt="XERJOFF NAXOS">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">XERJOFF NAXOS</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">319 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20XERJOFF%20NAXOS" target="_blank">
+                        <button class="cart-btn" data-name="XERJOFF NAXOS">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="WhatsApp Image 2026-04-10 at 05.08.05.jpeg" alt="SCANDAL JEAN PAUL GAULTIER">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">SCANDAL JEAN PAUL GAULTIER</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">319 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20SCANDAL%20JEAN%20PAUL%20GAULTIER" target="_blank">
+                        <button class="cart-btn" data-name="SCANDAL JEAN PAUL GAULTIER">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="WhatsApp Image 2026-04-10 at 05.09.21.jpeg" alt="VERSACE EROS">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">VERSACE EROS</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">289 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20VERSACE%20EROS" target="_blank">
+                        <button class="cart-btn" data-name="VERSACE EROS">اضغط للطلب</button>
+                    </a>
+                </div>
+                <div class="product-3d-card reveal tilt-card">
+                    <img class="product-img" src="WhatsApp Image 2026-04-10 at 05.11.21.jpeg" alt="SAUVAGE DIOR">
+                    <h3 style="font-size: 1.8rem; margin: 1rem 0;">SAUVAGE DIOR</h3>
+                    <div style="font-size: 1.5rem; margin: 0.8rem 0;">299 DH</div>
+                    <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20SAUVAGE%20DIOR" target="_blank">
+                        <button class="cart-btn" data-name="SAUVAGE DIOR">اضغط للطلب</button>
+                    </a>
+                </div>
+            </div>
     </section>
 
 
@@ -584,12 +714,12 @@
         <div class="container">
             <div class="reveal" style="text-align: center;"><h2 style="font-size: 3rem; color: var(--champagne-gold);">Rarefied Raw Materials</h2><div style="width: 100px; height: 1px; background: var(--champagne-gold); margin: 1rem auto 2rem;"></div></div>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;">
-                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 0.5s;">🐚 Ambergris Tincture</div>
-                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 0.8s;">🌾 Orris Butter 25Y</div>
-                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 1s;">🔥 Somalian Frankincense</div>
-                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 0.3s;">🍂 Saffron Crocus Sativa</div>
+                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 0.5s;">🐚 صبغة العنبر الرمادي</div>
+                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 0.8s;">🌾 زبدة السوسن 25 سنة</div>
+                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 1s;">🔥 لبان صومالي</div>
+                <div class="floating-ingredient glass-card" style="padding: 1rem 2rem; animation-delay: 0.3s;">🍂 زعفران كروكس ساتيفا</div>
             </div>
-            <p class="reveal" style="text-align: center; margin-top: 3rem; font-size: 0.9rem;">Each ingredient undergoes 3-year aging in cellars beneath Versailles</p>
+            <p class="reveal" style="text-align: center; margin-top: 3rem; font-size: 0.9rem;">يخضع كل مكوّن لتعتيق لمدة 3 سنوات في أقبية تحت فرساي</p>
         </div>
     </section>
 
@@ -597,18 +727,18 @@
         <div class="boutique-container">
             <div class="boutique-card reveal">
                 <h3><i class="fas fa-map-pin" style="color: var(--champagne-gold);"></i> Kayouri Atelier · Martil</h3>
-                <div style="margin: 1rem 0; border-left: 3px solid var(--champagne-gold); padding-left: 1rem;"><i class="fas fa-location-dot"></i> Next to Main Traffic Light (Stop Lekbir), Martil, Morocco</div>
-                <p style="margin: 1rem 0;">"A sanctuary of olfactory brilliance & horological precision."</p>
-                <ul class="service-list"><li><i class="fas fa-perfume"></i> Curated Collection: Women · Men · Unisex</li><li><i class="fas fa-sunglasses"></i> Premium Sunglasses · Haute Couture Eyewear</li><li><i class="fas fa-clock"></i> High-End Swiss Watches · Limited Editions</li><li><i class="fas fa-tools"></i> <strong>Expert Service:</strong> Professional watch maintenance & size adjustment (links add/remove) on‑site</li></ul>
+                <div style="margin: 1rem 0; border-right: 3px solid var(--champagne-gold); padding-right: 1rem;"><i class="fas fa-location-dot"></i> بجانب إشارة المرور الرئيسية (ستوب الكبير)، مرتيل، المغرب</div>
+                <p style="margin: 1rem 0;">"ملاذ للتألق العطري والدقة الساعاتية."</p>
+                <ul class="service-list"><li><i class="fas fa-perfume"></i> تشكيلة منتقاة: نسائي · رجالي · للجنسين</li><li><i class="fas fa-sunglasses"></i> نظارات شمسية فاخرة · نظارات هوت كوتور</li><li><i class="fas fa-clock"></i> ساعات سويسرية عالية المستوى · إصدارات محدودة</li><li><i class="fas fa-tools"></i> <strong>خدمة احترافية:</strong> صيانة الساعات وضبط المقاس (إضافة/إزالة الروابط) داخل المتجر</li></ul>
             </div>
-            <div class="boutique-map reveal"><div style="position: absolute; z-index: 10; background: rgba(0,0,0,0.6); padding: 5px 12px; border-radius: 40px; margin: 15px;"><i class="fas fa-map-marker-alt"></i> GOLD PIN</div><iframe src="https://maps.google.com/maps?q=Martil%2C%20Morocco%20Stop%20Lekbir&t=&z=16&ie=UTF8&iwloc=&output=embed" title="Kayouri Boutique Martil Map" allowfullscreen="" loading="lazy"></iframe></div>
+            <div class="boutique-map reveal"><div style="position: absolute; z-index: 10; background: rgba(0,0,0,0.6); padding: 5px 12px; border-radius: 40px; margin: 15px;"><i class="fas fa-map-marker-alt"></i> دبوس ذهبي</div><iframe src="https://maps.google.com/maps?q=Martil%2C%20Morocco%20Stop%20Lekbir&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe></div>
         </div>
-        <div class="container" style="text-align: center; margin-top: 2rem;"><p class="reveal" style="color: var(--champagne-gold); letter-spacing: 3px;">VISIT US IN THE HEART OF MARTIL — WHERE LUXURY MEETS THE MEDITERRANEAN</p></div>
+        <div class="container" style="text-align: center; margin-top: 2rem;"><p class="reveal" style="color: var(--champagne-gold); letter-spacing: 3px;">زورونا في قلب مرتيل — حيث تلتقي الفخامة بالمتوسط</p></div>
     </section>
 </main>
 
 <footer>
-    <div class="container"><div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; align-items: center;"><div><h3 style="font-family: 'Cormorant Garamond'; color: var(--champagne-gold);">KAYOURI</h3><p style="font-size: 0.8rem;">L'Art de la Perfection · Horlogerie & Parfums</p></div><div><h4>Subscribe to the Atelier</h4><div style="display: flex; gap: 0.5rem;"><input type="email" id="luxeEmail" placeholder="Your private email" style="background: #1a1a1a; border: 1px solid #3a3a3a; padding: 0.6rem 1rem; color: white;"><button id="insaneSubscribeBtn" style="background: var(--champagne-gold); border: none; padding: 0 1.5rem; color: black;">ENVOYER</button></div></div><div style="display: flex; gap: 1.8rem;"><a href="#" class="social-icon"><i class="fab fa-instagram"></i></a><a href="#" class="social-icon"><i class="fab fa-youtube"></i></a><a href="#" class="social-icon"><i class="fab fa-x-twitter"></i></a></div></div><div style="text-align: center; margin-top: 3rem; font-size: 0.7rem;">© 2025 KAYOURI — L’Art de la Perfection. All rights reserved.</div></div>
+    <div class="container"><div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; align-items: center;"><div><h3 style="font-family: 'Cormorant Garamond'; color: var(--champagne-gold);">KAYOURI</h3><p style="font-size: 0.8rem;">فن الكمال · صناعة الساعات والعطور</p></div><div><h4>Subscribe to the Atelier</h4><div style="display: flex; gap: 0.5rem;"><input type="email" id="luxeEmail" placeholder="بريدك الإلكتروني الخاص" style="background: #1a1a1a; border: 1px solid #3a3a3a; padding: 0.6rem 1rem; color: white;"><button id="insaneSubscribeBtn" style="background: var(--champagne-gold); border: none; padding: 0 1.5rem; color: black;">إرسال</button></div></div><div style="display: flex; gap: 1.8rem;"><a href="#" class="social-icon"><i class="fab fa-instagram"></i></a><a href="#" class="social-icon"><i class="fab fa-youtube"></i></a><a href="#" class="social-icon"><i class="fab fa-x-twitter"></i></a></div></div><div style="text-align: center; margin-top: 3rem; font-size: 0.7rem;">© 2025 KAYOURI — فن الكمال. جميع الحقوق محفوظة.</div></div>
 </footer>
 
 <script>
@@ -624,13 +754,13 @@
         reveals.forEach(r=>obs.observe(r));
         // smooth scroll
         function smooth(t){ const el=document.querySelector(t); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
-        document.getElementById('insaneDiscoverBtn')?.addEventListener('click',()=>smooth('#collection'));
+        document.getElementById('insaneDiscoverBtn')?.addEventListener('click',()=>smooth('#womens-perfumes'));
         document.querySelectorAll('header a').forEach(link=>{ link.addEventListener('click',(e)=>{ e.preventDefault(); const href=link.getAttribute('href'); if(href&&href!=='#') smooth(href); }); });
-        document.querySelector('.btn-boutique')?.addEventListener('click',(e)=>{ e.preventDefault(); alert("Private appointment request: Our concierge will contact you within 24 hours."); });
+        document.querySelector('.btn-boutique')?.addEventListener('click',(e)=>{ e.preventDefault(); alert("طلب موعد خاص: سيتواصل معك فريق الكونسيرج خلال 24 ساعة."); });
         const sub=document.getElementById('insaneSubscribeBtn'), emailF=document.getElementById('luxeEmail');
-        if(sub) sub.addEventListener('click',()=>{ let email=emailF.value.trim(); if(email&&email.includes('@')){ alert(`✨ Welcome, ${email}. You'll receive private launches & watch unveilings.`); emailF.value=''; } else alert('Valid email required for Maison Kayouri.'); });
+        if(sub) sub.addEventListener('click',()=>{ let email=emailF.value.trim(); if(email&&email.includes('@')){ alert(`✨ مرحبا ${email}. ستتلقى الإطلاقات الخاصة وكشف الساعات الجديدة.`); emailF.value=''; } else alert('يرجى إدخال بريد إلكتروني صالح لدار كايوري.'); });
         // tilt effect
-        document.querySelectorAll('.tilt-card').forEach(card=>{ card.addEventListener('mousemove',e=>{ const rect=card.getBoundingClientRect(); const x=e.clientX-rect.left, y=e.clientY-rect.top; const rx=(y-rect.height/2)/20, ry=(rect.width/2-x)/20; card.style.transform=`perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.01)`; }); card.addEventListener('mouseleave',()=>{ card.style.transform='perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)'; }); });
+        document.querySelectorAll('.tilt-card').forEach(card=>{ card.addEventListener('mousemove',e=>{ const rect=card.getBoundingClientRect(); const x=e.clientX-rect.left, y=e.clientY-rect.top; const rx=(y-rect.height/2)/20, ry=(rect.width/2-x)/20; card.style.transform=`perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.003)`; }); card.addEventListener('mouseleave',()=>{ card.style.transform='perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)'; }); });
         // mobile hamburger
         const hamburger=document.getElementById('hamburgerBtn'), navLinks=document.getElementById('navLinks');
         if(hamburger){ hamburger.addEventListener('click',()=>{ navLinks.classList.toggle('active'); }); document.querySelectorAll('.nav-links a').forEach(link=>{ link.addEventListener('click',()=>{ navLinks.classList.remove('active'); }); }); }
