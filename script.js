@@ -1,78 +1,64 @@
 (function () {
     'use strict';
 
+    const SANITY_PROJECT_ID = 'wdu9exn9';
+    const SANITY_DATASET = 'production';
+    const SANITY_QUERY = '*[_type == "perfume"]{name, price, "imageUrl": image.asset->url}';
+    const SANITY_API_URL = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${SANITY_DATASET}?query=${encodeURIComponent(SANITY_QUERY)}`;
+
+    async function fetchPerfumesFromSanity() {
+        const response = await fetch(SANITY_API_URL);
+        if (!response.ok) throw new Error('Failed to fetch perfumes from Sanity');
+        const data = await response.json();
+        return Array.isArray(data.result) ? data.result : [];
+    }
+
+    function renderPerfumes(perfumes) {
+        const perfumeList = document.getElementById('perfume-list');
+        if (!perfumeList) return;
+
+        perfumeList.innerHTML = '';
+
+        perfumes.forEach(function (perfume) {
+            const card = document.createElement('div');
+            card.className = 'product-3d-card reveal tilt-card';
+
+            card.innerHTML = `
+                <img class="product-img" loading="lazy" src="${perfume.imageUrl || ''}" alt="${perfume.name || ''}">
+                <h3 style="font-size: 1.8rem; margin: 1rem 0;">${perfume.name || ''}</h3>
+                <div style="font-size: 1.5rem; margin: 0.8rem 0;">${perfume.price ? `${perfume.price} DH` : ''}</div>
+                <a href="https://wa.me/212705042088?text=بغيت%20نسول%20على%20${encodeURIComponent(perfume.name || '')}" target="_blank">
+                    <button class="cart-btn" data-name="${perfume.name || ''}">اضغط للطلب</button>
+                </a>
+            `;
+            perfumeList.appendChild(card);
+        });
+    }
+
     function smooth(selector) {
         const el = document.querySelector(selector);
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    function getCollectionGrids() {
-        const collection = document.getElementById('collection');
-        if (!collection) return { womenTitle: null, menTitle: null, womenGrid: null, menGrid: null };
-
-        const womenTitle = document.getElementById('womens-perfumes');
-        const menTitle = document.getElementById('mens-perfumes');
-
-        let womenGrid = null;
-        let menGrid = null;
-
-        if (womenTitle && womenTitle.nextElementSibling &&
-            womenTitle.nextElementSibling.classList.contains('product-grid')) {
-            womenGrid = womenTitle.nextElementSibling;
-        }
-        if (menTitle && menTitle.nextElementSibling &&
-            menTitle.nextElementSibling.classList.contains('product-grid')) {
-            menGrid = menTitle.nextElementSibling;
-        }
-
-        return { collection, womenTitle, menTitle, womenGrid, menGrid };
-    }
-
     function runProductCardFadeIn() {
-        const { womenGrid, menGrid } = getCollectionGrids();
-        const grids = [womenGrid, menGrid].filter(Boolean);
+        const perfumeList = document.getElementById('perfume-list');
+        if (!perfumeList || perfumeList.style.display === 'none') return;
 
-        grids.forEach(function (grid) {
-            if (grid.style.display === 'none') return;
+        perfumeList.querySelectorAll('.product-3d-card').forEach(function (card) {
+            card.classList.remove('product-filter-fade-in');
+        });
 
-            grid.querySelectorAll('.product-3d-card').forEach(function (card) {
-                card.classList.remove('product-filter-fade-in');
-            });
-
-            grid.querySelectorAll('.product-3d-card').forEach(function (card) {
-                window.requestAnimationFrame(function () {
-                    void card.offsetWidth;
-                    card.classList.add('product-filter-fade-in');
-                });
+        perfumeList.querySelectorAll('.product-3d-card').forEach(function (card) {
+            window.requestAnimationFrame(function () {
+                void card.offsetWidth;
+                card.classList.add('product-filter-fade-in');
             });
         });
     }
 
-    /**
-     * Show/hide perfume sections by category.
-     * @param {string} category - 'all' | 'women' | 'men'
-     */
-    function filterProducts(category) {
-        const { womenTitle, menTitle, womenGrid, menGrid } = getCollectionGrids();
-
-        const showAll = category === 'all';
-        const showWomen = showAll || category === 'women';
-        const showMen = showAll || category === 'men';
-
-        if (womenTitle) {
-            womenTitle.style.display = showWomen ? 'block' : 'none';
-        }
-        if (menTitle) {
-            menTitle.style.display = showMen ? 'block' : 'none';
-        }
-
-        if (womenGrid) {
-            womenGrid.style.display = showWomen ? 'grid' : 'none';
-        }
-        if (menGrid) {
-            menGrid.style.display = showMen ? 'grid' : 'none';
-        }
-
+    function filterProducts() {
+        const perfumeList = document.getElementById('perfume-list');
+        if (perfumeList) perfumeList.style.display = 'grid';
         window.requestAnimationFrame(runProductCardFadeIn);
     }
 
@@ -152,7 +138,7 @@
     function initDiscoverBtn() {
         document.getElementById('insaneDiscoverBtn')
             ?.addEventListener('click', function () {
-                smooth('#womens-perfumes');
+                smooth('#collection');
             });
     }
 
@@ -163,7 +149,7 @@
         sub.addEventListener('click', function () {
             const email = emailF?.value.trim() || '';
             if (email && email.includes('@')) {
-                alert('✨ مرحبا ' + email + '. ستتلقى الإطلاقات الخاصة وكشف الساعات الجديدة.');
+                alert('✨ مرحبا ' + email + '. ستتلقى الإطلاقات الخاصة وكشف الروائح الجديدة.');
                 if (emailF) emailF.value = '';
             } else {
                 alert('يرجى إدخال بريد إلكتروني صالح لدار كايوري.');
@@ -195,7 +181,14 @@
             });
     }
 
-    function init() {
+    async function init() {
+        try {
+            const perfumes = await fetchPerfumesFromSanity();
+            renderPerfumes(perfumes);
+        } catch (e) {
+            // Optionally: display error to user or fallback!
+            // For now, fail silently.
+        }
         filterProducts('all');
         initCursor();
         initRevealObserver();
