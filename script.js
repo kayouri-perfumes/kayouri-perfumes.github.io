@@ -3,11 +3,20 @@
 
     const SANITY_PROJECT_ID = 'wdu9exn9';
     const SANITY_DATASET = 'production';
-    const SANITY_QUERY = '*[_type == "perfume"]{name, price, "imageUrl": image.asset->url}';
-    const SANITY_API_URL = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${SANITY_DATASET}?query=${encodeURIComponent(SANITY_QUERY)}`;
+    const SANITY_API_BASE_URL = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${SANITY_DATASET}`;
 
-    async function fetchPerfumesFromSanity() {
-        const response = await fetch(SANITY_API_URL);
+    function buildSanityQuery(category) {
+        const categoryFilter = category && category !== 'all'
+            ? ` && category == "${category}"`
+            : '';
+
+        return `*[_type == "perfume"${categoryFilter}]{name, price, category, "imageUrl": image.asset->url}`;
+    }
+
+    async function fetchPerfumesFromSanity(category) {
+        const query = buildSanityQuery(category);
+        const url = `${SANITY_API_BASE_URL}?query=${encodeURIComponent(query)}`;
+        const response = await fetch(url);
         if (!response.ok) throw new Error('Failed to fetch perfumes from Sanity');
         const data = await response.json();
         return Array.isArray(data.result) ? data.result : [];
@@ -56,9 +65,32 @@
         });
     }
 
-    function filterProducts() {
+    function updateCollectionTitle(category) {
+        const title = document.getElementById('collection-title');
+        if (!title) return;
+
+        const titleByCategory = {
+            all: 'جميع العطور',
+            women: 'عطور نسائية',
+            men: 'عطور رجالية'
+        };
+
+        title.textContent = titleByCategory[category] || titleByCategory.all;
+    }
+
+    async function filterProducts(category) {
         const perfumeList = document.getElementById('perfume-list');
-        if (perfumeList) perfumeList.style.display = 'grid';
+        if (!perfumeList) return;
+
+        perfumeList.style.display = 'grid';
+        updateCollectionTitle(category);
+        const perfumes = await fetchPerfumesFromSanity(category);
+        renderPerfumes(perfumes);
+
+        if (typeof initRevealObserver === 'function') {
+            initRevealObserver();
+        }
+
         window.requestAnimationFrame(runProductCardFadeIn);
     }
 
@@ -118,7 +150,9 @@
 
                 if (filterAttr) {
                     e.preventDefault();
-                    filterProducts(filterAttr);
+                    filterProducts(filterAttr).catch(function () {
+                        // Keep UI stable if fetching fails.
+                    });
                     const coll = document.getElementById('collection');
                     if (coll) coll.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     if (navLinks) navLinks.classList.remove('active');
@@ -183,13 +217,11 @@
 
     async function init() {
         try {
-            const perfumes = await fetchPerfumesFromSanity();
-            renderPerfumes(perfumes);
+            await filterProducts('all');
         } catch (e) {
             // Optionally: display error to user or fallback!
             // For now, fail silently.
         }
-        filterProducts('all');
         initCursor();
         initRevealObserver();
         initHeaderNav();
