@@ -342,15 +342,40 @@
             return;
         }
 
+        const normalizedProducts = cartItems.map(function (item) {
+            return {
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price
+            };
+        });
+        const productsText = normalizedProducts.map(function (item) {
+            return `${item.name} x${item.quantity} (${item.price} DH)`;
+        }).join(' | ');
+        const totalPrice = calculateCartTotal();
+        const fullName = document.getElementById('full-name')?.value.trim() || '';
+        const phone = document.getElementById('phone-number')?.value.trim() || '';
+        const city = document.getElementById('city')?.value.trim() || '';
+        const address = document.getElementById('full-address')?.value.trim() || '';
+
+        // Send multiple compatible keys to match different Apps Script doPost variable names.
         const payload = {
-            name: document.getElementById('full-name')?.value.trim() || '',
-            phone: document.getElementById('phone-number')?.value.trim() || '',
-            city: document.getElementById('city')?.value.trim() || '',
-            address: document.getElementById('full-address')?.value.trim() || '',
-            products: cartItems.map(function (item) {
-                return { name: item.name, quantity: item.quantity, price: item.price };
-            }),
-            totalPrice: calculateCartTotal()
+            name: fullName,
+            fullName: fullName,
+            customerName: fullName,
+            phone: phone,
+            phoneNumber: phone,
+            city: city,
+            address: address,
+            fullAddress: address,
+            products: normalizedProducts,
+            product: productsText,
+            productList: productsText,
+            items: normalizedProducts,
+            itemsJson: JSON.stringify(normalizedProducts),
+            productsText: productsText,
+            total: totalPrice,
+            totalPrice: totalPrice
         };
 
         const submitBtn = document.getElementById('submit-order');
