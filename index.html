@@ -6,7 +6,7 @@
     <title>كايوري | الفوحان المطلق · صناعة العطور الراقية</title>
     <meta name="google-site-verification" content="4u04ayUtymw29v_zzA2XDrW3rgMd5FNN5-5hhHyYVcA" />
     <!-- Google Fonts: Ultra-luxury pairing -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Cairo:wght@500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -21,13 +21,20 @@
     <header style="position: fixed; top: 0; left: 0; width: 100%; z-index: 100; background: rgba(5,5,5,0.7); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(247,231,206,0.2);">
         <div class="container" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem;">
         <a href="#" class="logo" style="display: flex; align-items: center; gap: 10px;">
-        <img src="logo.png" at="logo" style="height: 80px; width: auto;" loading="lazy">KAYOURI</a>
+        <img src="logo.png" at="logo" style="height: 80px; width: auto;" loading="lazy"></a>
+        <button id="cart-toggle" class="cart-toggle-btn" type="button" aria-label="فتح سلة التسوق">
+            <i class="fas fa-bag-shopping"></i>
+            <span id="cart-count">0</span>
+        </button>
         <button class="hamburger" id="hamburgerBtn" aria-label="تبديل القائمة" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
         </button>
         <ul class="nav-links" id="navLinks">
+            <li class="menu-close-item">
+                <button id="closeMenuBtn" class="menu-close-btn" type="button" aria-label="إغلاق القائمة">✕</button>
+            </li>
             <li><a href="#home">الرئيسية</a></li>
             <li><a href="#" data-filter="all">جميع العطور</a></li>
             <li><a href="#" data-filter="women">عطور نسائية</a></li>
@@ -38,26 +45,94 @@
         </div>
     </header>
 
+    <aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
+        <div class="cart-header">
+            <h3>سلة التسوق</h3>
+            <button id="close-cart-btn" type="button" class="menu-close-btn" aria-label="إغلاق السلة">✕</button>
+        </div>
+        <div id="cart-empty" class="cart-empty">سلتك فارغة حالياً</div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-subtotal-row">
+                <span>المجموع الفرعي</span>
+                <strong id="cart-subtotal">0 DH</strong>
+            </div>
+            <button id="cart-checkout-btn" type="button" class="cart-checkout-btn">إتمام الطلب</button>
+            <button id="continue-shopping-btn" type="button" class="continue-shopping-btn">متابعة التسوق</button>
+        </div>
+    </aside>
+    <div id="cart-overlay" class="cart-overlay" hidden></div>
+    <a class="whatsapp-float-btn" href="https://wa.me/212705042088" target="_blank" rel="noopener noreferrer" aria-label="واتساب">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
 <main>
     <section id="home" class="hero">
         <video autoplay muted loop playsinline class="hero-video-bg">
             <source src="https://player.vimeo.com/external/396079782.hd.mp4?s=7a6ecbefd29b6c7dff8a4c5f3a9a822d0b868ed0&profile_id=174" type="video/mp4">
         </source></video>
         <div class="hero-content">
-            <h1 class="hero-title reveal">KAYOURI PERFUME</h1>
-            <p class="reveal" style="font-size: 1.3rem; letter-spacing: 8px; margin: 1rem 0 2rem; font-weight: 200;">الفوحان المطلق · صناعة العطور الراقية</p>
+            <h1 class="hero-title reveal">KAYOURI PERFUMES</h1>
+            <p class="hero-slogan reveal" style="font-size: 1.3rem; letter-spacing: 8px; margin: 1rem 0 2rem; font-weight: 200;">الفوحان المطلق · صناعة العطور الراقية</p>
             <button class="gold-border-btn reveal" id="insaneDiscoverBtn">اكتشف المزيد <i class="fas fa-arrow-left-long arrow-icon"></i></button>
         </div>
     </section>
 
     <section id="collection" class="featured">
         <div class="container">
-            <div class="reveal" style="text-align: center; margin-bottom: 4rem;">
-                <span class="gold-text" style="font-size: 1rem; letter-spacing: 5px;">العطور الراقية</span>
-                <h2 id="collection-title" style="font-size: 3rem; color: var(--champagne-gold);">جميع العطور</h2>
-                <div style="width: 80px; height: 2px; background: var(--champagne-gold); margin: 1rem auto;"></div>
+            <div id="collection-gallery" style="display: block;">
+                <div class="reveal" style="text-align: center; margin-bottom: 4rem;">
+                    <span class="gold-text" style="font-size: 1rem; letter-spacing: 5px;">العطور الراقية</span>
+                    <h2 id="collection-title" style="font-size: 3rem; color: var(--champagne-gold);">جميع العطور</h2>
+                    <div style="width: 80px; height: 2px; background: var(--champagne-gold); margin: 1rem auto;"></div>
+                </div>
+                <div id="perfume-list" class="product-grid" style="margin-bottom: 5rem;"></div>
             </div>
-            <div id="perfume-list" class="product-grid" style="margin-bottom: 5rem;"></div>
+
+            <section id="product-detail-section" class="product-detail-section" style="display: none;">
+                <button id="back-to-collection" class="back-btn" type="button">العودة إلى مجموعة العطور</button>
+                <div class="product-detail-card">
+                    <img id="detail-image" class="detail-image" src="" alt="">
+                    <div class="detail-content">
+                        <h3 id="detail-name"></h3>
+                        <p id="detail-price" class="detail-price"></p>
+                        <p id="detail-description" class="detail-description"></p>
+                        <div class="detail-qty-controls">
+                            <button id="detail-qty-plus" type="button" class="qty-action-btn">+</button>
+                            <span id="detail-qty-value">1</span>
+                            <button id="detail-qty-minus" type="button" class="qty-action-btn">-</button>
+                        </div>
+                        <button id="add-to-cart-btn" type="button" class="cart-checkout-btn add-to-cart-detail-btn">أضف إلى السلة</button>
+                    </div>
+                </div>
+
+                <form id="order-form" class="order-form">
+                    <h3>تأكيد الطلب</h3>
+                    <input id="full-name" name="fullName" type="text" placeholder="الإسم الكامل" required>
+                    <input id="phone-number" name="phone" type="tel" placeholder="رقم الهاتف" required>
+                    <input id="city" name="city" type="text" placeholder="المدينة" required>
+                    <textarea id="full-address" name="address" rows="4" placeholder="العنوان الكامل" required></textarea>
+                    <label class="consent-check">
+                        <input id="consent" name="consent" type="checkbox" required>
+                        <span>أؤكد أن معلوماتي صحيحة وأوافق على تلقي مكالمة هاتفية لتأكيد الطلب</span>
+                    </label>
+                    <div id="order-cart-summary" class="order-cart-summary"></div>
+                    <button id="submit-order" type="submit">تأكيد الطلب</button>
+                </form>
+            </section>
+        </div>
+    </section>
+
+    <section class="about-policies">
+        <div class="container">
+            <h2>جودة الأصلي - ثبات وأناقة مضمونة</h2>
+            <ul class="about-features">
+                <li>شحن سريع لكل المدن المغربية (24-48 ساعة)</li>
+                <li>الدفع عند الاستلام - بسيط، آمن وعملي</li>
+            </ul>
+            <p class="payments-text">
+                طرق الدفع: الدفع عند الاستلام هو الوسيلة المتاحة حالياً، تطلب منتجك وسنقوم بتوصيله لباب منزلك قبل الدفع.
+            </p>
         </div>
     </section>
 
@@ -82,14 +157,12 @@
                 <p style="margin: 1rem 0;">"ملاذ للتألق العطري والدقة الساعاتية."</p>
                 <ul class="service-list"><li><i class="fas fa-perfume"></i> تشكيلة منتقاة: نسائي · رجالي · للجنسين</li><li><i class="fas fa-sunglasses"></i> نظارات شمسية فاخرة · نظارات هوت كوتور</li><li><i class="fas fa-clock"></i> ساعات سويسرية عالية المستوى · إصدارات محدودة</li><li><i class="fas fa-tools"></i> <strong>خدمة احترافية:</strong> صيانة الساعات وضبط المقاس (إضافة/إزالة الروابط) داخل المتجر</li></ul>
             </div>
-            <div class="boutique-map reveal"><div style="position: absolute; z-index: 10; background: rgba(0,0,0,0.6); padding: 5px 12px; border-radius: 40px; margin: 15px;"><i class="fas fa-map-marker-alt"></i> دبوس ذهبي</div><iframe src="https://maps.google.com/maps?q=Martil%2C%20Morocco%20Stop%20Lekbir&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe></div>
         </div>
-        <div class="container" style="text-align: center; margin-top: 2rem;"><p class="reveal" style="color: var(--champagne-gold); letter-spacing: 3px;">زورونا في قلب مرتيل — حيث تلتقي الفخامة بالمتوسط</p></div>
     </section>
 </main>
 
 <footer>
-    <div class="container"><div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; align-items: center;"><div><h3 style="font-family: 'Cormorant Garamond'; color: var(--champagne-gold);">KAYOURI</h3><p style="font-size: 0.8rem;">فن الكمال · صناعة الساعات والعطور</p></div><div><h4>Subscribe to the Atelier</h4><div style="display: flex; gap: 0.5rem;"><input type="email" id="luxeEmail" placeholder="بريدك الإلكتروني الخاص" style="background: #1a1a1a; border: 1px solid #3a3a3a; padding: 0.6rem 1rem; color: white;"><button id="insaneSubscribeBtn" style="background: var(--champagne-gold); border: none; padding: 0 1.5rem; color: black;">إرسال</button></div></div><div style="display: flex; gap: 1.8rem;"><a href="#" class="social-icon"><i class="fab fa-instagram"></i></a><a href="#" class="social-icon"><i class="fab fa-youtube"></i></a><a href="#" class="social-icon"><i class="fab fa-x-twitter"></i></a></div></div><div style="text-align: center; margin-top: 3rem; font-size: 0.7rem;">© 2025 KAYOURI — فن الكمال. جميع الحقوق محفوظة.</div></div>
+    <div class="container"><div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; align-items: center;"><div><h3 style="font-family: 'Cormorant Garamond'; color: var(--champagne-gold);">KAYOURI</h3><p style="font-size: 0.8rem;">فن الكمال · صناعة الساعات والعطور</p></div></div><div style="text-align: center; margin-top: 3rem; font-size: 0.7rem;">© 2025 KAYOURI — فن الكمال. جميع الحقوق محفوظة.</div></div>
 </footer>
 
 <script src="script.js"></script>
