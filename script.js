@@ -4,7 +4,7 @@
     const SANITY_PROJECT_ID = 'wdu9exn9';
     const SANITY_DATASET = 'production';
     const SANITY_API_BASE_URL = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${SANITY_DATASET}`;
-    const ORDER_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbykfKnigZ0l7ZQ04_ze8gh-LFLjv315hbDbj4aV_VwLHfgBikOMh6HXX8jc90HcbSnT/exec';
+    const ORDER_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxsOlwG8cUdgMTxL89rb4slqQncw2OKLOxqZZK2RjVzWGTsj4NtgjI_sA01NQ-rm_Ev/exec';
     const DEFAULT_DESCRIPTION = 'تركيبة فاخرة بلمسات راقية وثبات مميز يمنحك حضورا استثنائيا طوال اليوم.';
     let activePerfume = null;
     let activeCategory = 'all';
