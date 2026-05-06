@@ -337,44 +337,49 @@
     async function submitOrder(e) {
         e.preventDefault();
         const form = e.currentTarget;
-        if (!form || cartItems.length === 0) {
+        if (!form) {
+            return;
+        }
+
+        const orderItems = cartItems.length > 0
+            ? cartItems
+            : (activePerfume ? [{
+                name: activePerfume.name || '',
+                quantity: selectedDetailQuantity || 1,
+                price: parsePrice(activePerfume.price)
+            }] : []);
+
+        if (orderItems.length === 0) {
             alert('المرجو إضافة منتج واحد على الأقل إلى السلة قبل تأكيد الطلب.');
             return;
         }
 
-        const normalizedProducts = cartItems.map(function (item) {
+        const normalizedProducts = orderItems.map(function (item) {
             return {
                 name: item.name,
                 quantity: item.quantity,
                 price: item.price
             };
         });
-        const productsText = normalizedProducts.map(function (item) {
-            return `${item.name} x${item.quantity} (${item.price} DH)`;
-        }).join(' | ');
-        const totalPrice = calculateCartTotal();
+        const productDetails = normalizedProducts.length === 1
+            ? `${normalizedProducts[0].name} (Quantity: ${normalizedProducts[0].quantity})`
+            : normalizedProducts.map(function (item) {
+                return `${item.name} (x${item.quantity})`;
+            }).join(' | ');
+        const totalPrice = normalizedProducts.reduce(function (sum, item) {
+            return sum + (item.price * item.quantity);
+        }, 0);
         const fullName = document.getElementById('full-name')?.value.trim() || '';
         const phone = document.getElementById('phone-number')?.value.trim() || '';
         const city = document.getElementById('city')?.value.trim() || '';
         const address = document.getElementById('full-address')?.value.trim() || '';
 
-        // Send multiple compatible keys to match different Apps Script doPost variable names.
         const payload = {
             name: fullName,
-            fullName: fullName,
-            customerName: fullName,
             phone: phone,
-            phoneNumber: phone,
             city: city,
             address: address,
-            fullAddress: address,
-            products: normalizedProducts,
-            product: productsText,
-            productList: productsText,
-            items: normalizedProducts,
-            itemsJson: JSON.stringify(normalizedProducts),
-            productsText: productsText,
-            total: totalPrice,
+            productDetails: productDetails,
             totalPrice: totalPrice
         };
 
