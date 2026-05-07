@@ -297,6 +297,14 @@
         title.textContent = titleByCategory[category] || titleByCategory.all;
     }
 
+    // --- Begin inserted for pushProductUrl and updating product details view ---
+
+    function pushProductUrl(slug) {
+        if (!slug) return;
+        const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?product=' + slug;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+    }
+
     function showPerfumeDetails(perfume, options) {
         options = options || {};
         const syncUrl = options.syncUrl !== false;
@@ -318,7 +326,7 @@
 
         activePerfume = perfume;
         if (syncUrl && perfume.slug && perfume.slug.current) {
-            history.pushState(null, '', '?product=' + perfume.slug.current);
+            pushProductUrl(perfume.slug.current);
         }
         heroSection.style.display = 'none';
         galleryContainer.style.display = 'none';
@@ -345,6 +353,7 @@
         renderOrderCartSummary();
         window.scrollTo(0, 0);
     }
+    // --- End pushProductUrl and product details insertion ---
 
     function backToCollection(skipUrlClear) {
         const heroSection = document.getElementById('home');
