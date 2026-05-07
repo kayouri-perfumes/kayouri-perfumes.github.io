@@ -187,6 +187,9 @@
     }
 
     function resetHomeOnLoad() {
+        if (getProductSlugFromUrl()) {
+            return; // إيلا كان كاين منتوج ف الليان، ما تمسح والو!
+        }
         const heroSection = document.getElementById('home');
         const galleryContainer = document.getElementById('collection-gallery');
         const perfumeList = document.getElementById('perfume-list');
@@ -301,7 +304,7 @@
 
     function pushProductUrl(slug) {
         if (!slug) return;
-        const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?product=' + slug;
+        const newUrl = window.location.pathname + '?product=' + slug;
         window.history.pushState({ path: newUrl }, '', newUrl);
     }
 
