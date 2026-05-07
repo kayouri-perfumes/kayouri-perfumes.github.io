@@ -26,11 +26,6 @@
         return url.pathname + url.search + url.hash;
     }
 
-    function pushProductUrl(slug) {
-        if (!slug) return;
-        history.pushState({ product: slug }, '', buildUrlWithProductParam(slug));
-    }
-
     function clearProductUrl() {
         if (!getProductSlugFromUrl()) return;
         history.replaceState({}, '', buildUrlWithProductParam(null));
@@ -322,9 +317,8 @@
         }
 
         activePerfume = perfume;
-        if (syncUrl) {
-            const slug = perfume.slug && perfume.slug.current;
-            if (slug) pushProductUrl(slug);
+        if (syncUrl && perfume.slug && perfume.slug.current) {
+            history.pushState(null, '', '?product=' + perfume.slug.current);
         }
         heroSection.style.display = 'none';
         galleryContainer.style.display = 'none';
@@ -723,13 +717,13 @@
             const slug = getProductSlugFromUrl();
             if (!slug) {
                 backToCollection(true);
+                return;
+            }
+            const match = findPerfumeBySlug(slug);
+            if (match) {
+                showPerfumeDetails(match, { syncUrl: false });
             } else {
-                const perfume = findPerfumeBySlug(slug);
-                if (perfume) {
-                    showPerfumeDetails(perfume, { syncUrl: false });
-                } else {
-                    backToCollection(true);
-                }
+                backToCollection(true);
             }
         });
     }
