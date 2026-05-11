@@ -11,6 +11,8 @@
     let cartItems = [];
     let selectedDetailQuantity = 1;
     let lastFetchedPerfumes = [];
+    /** Full catalog from the last `filterProducts('all')` fetch; used for `?product=` deep links and history. */
+    let allPerfumes = [];
 
     function getProductSlugFromUrl() {
         return new URLSearchParams(window.location.search).get('product');
@@ -33,18 +35,26 @@
 
     function findPerfumeBySlug(slug, perfumes) {
         if (!slug) return null;
-        const list = perfumes || lastFetchedPerfumes;
+        var list;
+        if (perfumes && perfumes.length) {
+            list = perfumes;
+        } else if (allPerfumes.length) {
+            list = allPerfumes;
+        } else {
+            list = lastFetchedPerfumes;
+        }
         return list.find(function (p) {
             return p.slug && p.slug.current === slug;
         }) || null;
     }
 
-    function tryOpenProductFromUrl(perfumes) {
+    /** If `?product=<slug>` is present and the product exists, open detail without changing the URL. */
+    function tryOpenProductFromUrl() {
         const slug = getProductSlugFromUrl();
         if (!slug) return;
-        const perfume = findPerfumeBySlug(slug, perfumes);
+        const perfume = findPerfumeBySlug(slug);
         if (perfume) {
-            showPerfumeDetails(perfume, { syncUrl: false });
+            showPerfumeDetails(perfume);
         } else {
             clearProductUrl();
             resetHomeOnLoad();
@@ -254,12 +264,12 @@
             `;
 
             card.addEventListener('click', function () {
-                showPerfumeDetails(perfume, { syncUrl: true });
+                showPerfumeDetails(perfume);
             });
             card.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    showPerfumeDetails(perfume, { syncUrl: true });
+                    showPerfumeDetails(perfume);
                 }
             });
             perfumeList.appendChild(card);
@@ -310,7 +320,7 @@
 
     function showPerfumeDetails(perfume, options) {
         options = options || {};
-        const syncUrl = options.syncUrl !== false;
+        const syncUrl = options.syncUrl === true;
 
         const heroSection = document.getElementById('home');
         const galleryContainer = document.getElementById('collection-gallery');
@@ -497,6 +507,9 @@
         updateCollectionTitle(activeCategory);
         const perfumes = await fetchPerfumesFromSanity(activeCategory);
         lastFetchedPerfumes = perfumes;
+        if (activeCategory === 'all') {
+            allPerfumes = perfumes;
+        }
         renderPerfumes(perfumes);
 
         if (typeof initRevealObserver === 'function') {
@@ -716,8 +729,8 @@
 
     function syncViewToHistoryUrl() {
         const slug = getProductSlugFromUrl();
-        if (slug && lastFetchedPerfumes.length) {
-            tryOpenProductFromUrl(lastFetchedPerfumes);
+        if (slug && (allPerfumes.length || lastFetchedPerfumes.length)) {
+            tryOpenProductFromUrl();
         } else if (!slug) {
             resetHomeOnLoad();
             updateCollectionTitle(activeCategory);
@@ -733,7 +746,7 @@
             }
             const match = findPerfumeBySlug(slug);
             if (match) {
-                showPerfumeDetails(match, { syncUrl: false });
+                showPerfumeDetails(match);
             } else {
                 backToCollection(true);
             }
@@ -742,9 +755,8 @@
 
     async function init() {
         enforceInitialViewState();
-        let perfumes = [];
         try {
-            perfumes = await filterProducts('all', { preserveProductUrl: true });
+            await filterProducts('all', { preserveProductUrl: true });
         } catch (e) {
             // Optionally: display error to user or fallback!
             // For now, fail silently.
@@ -778,14 +790,14 @@
         window.history.scrollRestoration = 'manual';
     }
     window.addEventListener('load', function () {
-        if (lastFetchedPerfumes.length && getProductSlugFromUrl()) {
+        if ((allPerfumes.length || lastFetchedPerfumes.length) && getProductSlugFromUrl()) {
             syncViewToHistoryUrl();
         } else {
             enforceInitialViewState();
         }
     });
     window.addEventListener('pageshow', function () {
-        if (lastFetchedPerfumes.length && getProductSlugFromUrl()) {
+        if ((allPerfumes.length || lastFetchedPerfumes.length) && getProductSlugFromUrl()) {
             syncViewToHistoryUrl();
         } else {
             enforceInitialViewState();
