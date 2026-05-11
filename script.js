@@ -1,3 +1,5 @@
+let allPerfumes = [];
+
 (function () {
     'use strict';
 
@@ -11,8 +13,6 @@
     let cartItems = [];
     let selectedDetailQuantity = 1;
     let lastFetchedPerfumes = [];
-    /** Set when `filterProducts('all')` completes; used for deep links and `popstate`. */
-    let allPerfumes = [];
 
     function buildUrlWithProductParam(slug) {
         const url = new URL(window.location.href);
@@ -471,10 +471,10 @@
         perfumeList.style.display = 'grid';
         updateCollectionTitle(activeCategory);
 
-        return fetchPerfumesFromSanity(activeCategory).then(function (perfumes) {
-            lastFetchedPerfumes = perfumes;
+        return fetchPerfumesFromSanity(activeCategory).then(function (data) {
+            lastFetchedPerfumes = data;
             if (activeCategory === 'all') {
-                allPerfumes = perfumes;
+                allPerfumes = data;
                 const urlParams = new URLSearchParams(window.location.search);
                 const productSlug = urlParams.get('product');
                 if (productSlug) {
@@ -492,14 +492,14 @@
                 }
             }
 
-            renderPerfumes(perfumes);
+            renderPerfumes(data);
 
             if (typeof initRevealObserver === 'function') {
                 initRevealObserver();
             }
 
             window.requestAnimationFrame(runProductCardFadeIn);
-            return perfumes;
+            return data;
         });
     }
 
