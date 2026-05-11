@@ -303,8 +303,8 @@ let allPerfumes = [];
         }
 
         activePerfume = perfume;
-        if (syncUrl && perfume.slug && perfume.slug.current) {
-            pushProductUrl(perfume.slug.current);
+        if (perfume.slug?.current) {
+            window.history.pushState({}, '', '?product=' + encodeURIComponent(perfume.slug.current));
         }
         heroSection.style.display = 'none';
         galleryContainer.style.display = 'none';
@@ -339,7 +339,7 @@ let allPerfumes = [];
         const detailSection = document.getElementById('product-detail-section');
         if (!(heroSection && galleryContainer && perfumeList && detailSection)) return;
 
-        if (!skipUrlClear) clearProductUrl();
+        window.history.pushState({}, '', window.location.pathname);
         heroSection.style.display = 'block';
         galleryContainer.style.display = 'block';
         perfumeList.style.display = 'grid';
