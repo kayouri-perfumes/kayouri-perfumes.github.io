@@ -476,6 +476,7 @@ let allPerfumes = [];
             if (activeCategory === 'all') {
                 allPerfumes = data;
             }
+            window.allPerfumes = allPerfumes;
 
             const urlParams = new URLSearchParams(window.location.search);
             const productSlug = urlParams.get('product');
@@ -756,4 +757,8 @@ let allPerfumes = [];
     } else {
         init();
     }
+
+    // Expose for debugging + deep-link tooling (e.g. console usage)
+    window.showPerfumeDetails = showPerfumeDetails;
+    window.allPerfumes = allPerfumes;
 })();
