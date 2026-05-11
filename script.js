@@ -479,7 +479,7 @@ let allPerfumes = [];
                 const productSlug = urlParams.get('product');
                 if (productSlug) {
                     const product = allPerfumes.find(function (p) {
-                        return p.slug && p.slug.current === productSlug;
+                        return p.slug?.current === productSlug;
                     });
                     if (product) {
                         showPerfumeDetails(product, { syncUrl: false });
@@ -718,7 +718,7 @@ let allPerfumes = [];
                 return;
             }
             const match = allPerfumes.find(function (p) {
-                return p.slug && p.slug.current === slug;
+                return p.slug?.current === slug;
             });
             if (match) {
                 showPerfumeDetails(match, { syncUrl: false });
