@@ -475,21 +475,22 @@ let allPerfumes = [];
             lastFetchedPerfumes = data;
             if (activeCategory === 'all') {
                 allPerfumes = data;
-                const urlParams = new URLSearchParams(window.location.search);
-                const productSlug = urlParams.get('product');
-                if (productSlug) {
-                    const product = allPerfumes.find(function (p) {
-                        return p.slug?.current === productSlug;
-                    });
-                    if (product) {
-                        showPerfumeDetails(product, { syncUrl: false });
-                    } else {
-                        clearProductUrl();
-                        resetHomeOnLoad();
-                    }
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const productSlug = urlParams.get('product');
+            if (productSlug) {
+                const product = allPerfumes.find(function (p) {
+                    return p.slug?.current === productSlug;
+                });
+                if (product) {
+                    showPerfumeDetails(product, { syncUrl: false });
                 } else {
+                    clearProductUrl();
                     resetHomeOnLoad();
                 }
+            } else if (activeCategory === 'all') {
+                resetHomeOnLoad();
             }
 
             renderPerfumes(data);
