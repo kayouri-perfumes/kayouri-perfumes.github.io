@@ -285,7 +285,13 @@ let allPerfumes = [];
 
     function showPerfumeDetails(perfume, options) {
         options = options || {};
-        const syncUrl = options.syncUrl === true;
+
+        if (perfume && perfume.slug && perfume.slug.current) {
+            const url = new URL(window.location);
+            url.searchParams.set('product', perfume.slug.current);
+            window.history.pushState({}, '', url);
+            console.log('URL updated to:', perfume.slug.current);
+        }
 
         const heroSection = document.getElementById('home');
         const galleryContainer = document.getElementById('collection-gallery');
@@ -303,9 +309,6 @@ let allPerfumes = [];
         }
 
         activePerfume = perfume;
-        if (perfume.slug?.current) {
-            window.history.pushState({}, '', '?product=' + encodeURIComponent(perfume.slug.current));
-        }
         heroSection.style.display = 'none';
         galleryContainer.style.display = 'none';
         perfumeList.style.display = 'none';
@@ -339,7 +342,9 @@ let allPerfumes = [];
         const detailSection = document.getElementById('product-detail-section');
         if (!(heroSection && galleryContainer && perfumeList && detailSection)) return;
 
-        window.history.pushState({}, '', window.location.pathname);
+        const backUrl = new URL(window.location);
+        backUrl.searchParams.delete('product');
+        window.history.pushState({}, '', backUrl);
         heroSection.style.display = 'block';
         galleryContainer.style.display = 'block';
         perfumeList.style.display = 'grid';
