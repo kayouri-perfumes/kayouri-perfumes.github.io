@@ -335,22 +335,40 @@ let allPerfumes = [];
         window.scrollTo(0, 0);
     }
 
-    function backToCollection(skipUrlClear) {
+    function isProductDetailVisible() {
+        const detailSection = document.getElementById('product-detail-section');
+        return !!(detailSection && detailSection.style.display === 'block');
+    }
+
+    function showCollectionLayout() {
         const heroSection = document.getElementById('home');
         const galleryContainer = document.getElementById('collection-gallery');
         const perfumeList = document.getElementById('perfume-list');
         const detailSection = document.getElementById('product-detail-section');
         if (!(heroSection && galleryContainer && perfumeList && detailSection)) return;
 
-        const backUrl = new URL(window.location);
-        backUrl.searchParams.delete('product');
-        window.history.pushState({}, '', backUrl);
         heroSection.style.display = 'block';
         galleryContainer.style.display = 'block';
         perfumeList.style.display = 'grid';
         detailSection.style.display = 'none';
         updateCollectionTitle(activeCategory);
         window.scrollTo(0, 0);
+    }
+
+    /** When leaving detail via main nav: strip query to pathname only. */
+    function closeProductDetailIfOpenForNav() {
+        if (!isProductDetailVisible()) return;
+        window.history.pushState({}, '', window.location.pathname);
+        showCollectionLayout();
+    }
+
+    function backToCollection(skipUrlClear) {
+        if (!skipUrlClear) {
+            const backUrl = new URL(window.location);
+            backUrl.searchParams.delete('product');
+            window.history.pushState({}, '', backUrl);
+        }
+        showCollectionLayout();
     }
 
     function continueShoppingGlobal() {
@@ -562,6 +580,8 @@ let allPerfumes = [];
 
         headerLinks.forEach(function (link) {
             link.addEventListener('click', function (e) {
+                closeProductDetailIfOpenForNav();
+
                 const filterAttr = link.getAttribute('data-filter');
 
                 if (filterAttr) {
