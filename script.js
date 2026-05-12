@@ -40,6 +40,109 @@ let allPerfumes = [];
         }, 0);
     }
 
+    function resolvePerfumeImageUrlByName(name) {
+        var lists = [allPerfumes, lastFetchedPerfumes];
+        for (var i = 0; i < lists.length; i++) {
+            var list = lists[i];
+            if (!list || !list.length) continue;
+            var found = list.find(function (p) {
+                return p.name === name;
+            });
+            if (found && found.imageUrl) return found.imageUrl;
+        }
+        return '';
+    }
+
+    function renderCheckoutOrderSummary() {
+        var container = document.getElementById('checkout-order-summary');
+        if (!container || cartItems.length === 0) return;
+
+        container.innerHTML = '';
+
+        var title = document.createElement('h4');
+        title.className = 'checkout-order-summary-title';
+        title.textContent = 'ملخص الطلب';
+        container.appendChild(title);
+
+        cartItems.forEach(function (item) {
+            var row = document.createElement('div');
+            row.className = 'checkout-summary-row';
+
+            var img = document.createElement('img');
+            img.className = 'checkout-summary-img';
+            img.alt = '';
+            img.loading = 'lazy';
+            var imgSrc = resolvePerfumeImageUrlByName(item.name);
+            if (imgSrc) img.src = imgSrc;
+
+            var info = document.createElement('div');
+            info.className = 'checkout-summary-info';
+            var nameEl = document.createElement('span');
+            nameEl.className = 'checkout-summary-name';
+            nameEl.textContent = item.name;
+            var qtyEl = document.createElement('span');
+            qtyEl.className = 'checkout-summary-qty';
+            qtyEl.textContent = '×' + String(item.quantity);
+            info.appendChild(nameEl);
+            info.appendChild(qtyEl);
+
+            var lineTotal = document.createElement('div');
+            lineTotal.className = 'checkout-summary-line-total';
+            lineTotal.textContent = String(item.quantity * item.price) + ' DH';
+
+            row.appendChild(img);
+            row.appendChild(info);
+            row.appendChild(lineTotal);
+            container.appendChild(row);
+        });
+
+        var grand = document.createElement('div');
+        grand.className = 'checkout-summary-grand-total';
+        var grandLabel = document.createElement('span');
+        grandLabel.textContent = 'المجموع الإجمالي';
+        var grandVal = document.createElement('strong');
+        grandVal.textContent = String(calculateCartTotal()) + ' DH';
+        grand.appendChild(grandLabel);
+        grand.appendChild(grandVal);
+        container.appendChild(grand);
+    }
+
+    function getProductDetailCardEl() {
+        var section = document.getElementById('product-detail-section');
+        return section ? section.querySelector('.product-detail-card') : null;
+    }
+
+    function clearCheckoutOrderSummaryDom() {
+        var el = document.getElementById('checkout-order-summary');
+        if (el) el.innerHTML = '';
+    }
+
+    /** Checkout-from-cart: hide product card; back / showPerfumeDetails restores it. */
+    function setProductDetailCheckoutOnly(isCheckoutOnly) {
+        var section = document.getElementById('product-detail-section');
+        var card = getProductDetailCardEl();
+        if (!section || !card) return;
+        if (isCheckoutOnly) {
+            section.classList.add('is-checkout-only');
+            card.style.display = 'none';
+        } else {
+            section.classList.remove('is-checkout-only');
+            card.style.display = '';
+        }
+    }
+
+    function showCheckoutSectionFromCart() {
+        var heroSection = document.getElementById('home');
+        var galleryContainer = document.getElementById('collection-gallery');
+        var perfumeList = document.getElementById('perfume-list');
+        var detailSection = document.getElementById('product-detail-section');
+        if (heroSection) heroSection.style.display = 'none';
+        if (galleryContainer) galleryContainer.style.display = 'none';
+        if (perfumeList) perfumeList.style.display = 'none';
+        if (detailSection) detailSection.style.display = 'block';
+        setProductDetailCheckoutOnly(true);
+    }
+
     function renderOrderCartSummary() {
         const summary = document.getElementById('order-cart-summary');
         if (!summary) return;
@@ -308,6 +411,9 @@ let allPerfumes = [];
             return;
         }
 
+        setProductDetailCheckoutOnly(false);
+        clearCheckoutOrderSummaryDom();
+
         activePerfume = perfume;
         heroSection.style.display = 'none';
         galleryContainer.style.display = 'none';
@@ -341,6 +447,9 @@ let allPerfumes = [];
     }
 
     function showCollectionLayout() {
+        setProductDetailCheckoutOnly(false);
+        clearCheckoutOrderSummaryDom();
+
         const heroSection = document.getElementById('home');
         const galleryContainer = document.getElementById('collection-gallery');
         const perfumeList = document.getElementById('perfume-list');
@@ -608,6 +717,24 @@ let allPerfumes = [];
     function initProductViewEvents() {
         document.getElementById('back-to-collection')
             ?.addEventListener('click', function () {
+                var section = document.getElementById('product-detail-section');
+                if (section && section.classList.contains('is-checkout-only')) {
+                    setProductDetailCheckoutOnly(false);
+                    clearCheckoutOrderSummaryDom();
+                    if (activePerfume) {
+                        window.requestAnimationFrame(function () {
+                            window.requestAnimationFrame(function () {
+                                var card = getProductDetailCardEl();
+                                if (card) {
+                                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            });
+                        });
+                    } else {
+                        backToCollection(false);
+                    }
+                    return;
+                }
                 backToCollection(false);
             });
         document.getElementById('order-form')
@@ -640,12 +767,19 @@ let allPerfumes = [];
             ?.addEventListener('click', closeCartDrawer);
         document.getElementById('cart-checkout-btn')
             ?.addEventListener('click', function () {
+                if (cartItems.length === 0) {
+                    return;
+                }
                 closeCartDrawer();
-                if (activePerfume) {
-                    document.getElementById('product-detail-section')
-                        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else {
-                    smooth('#collection');
+                renderCheckoutOrderSummary();
+                showCheckoutSectionFromCart();
+                var summaryEl = document.getElementById('checkout-order-summary');
+                if (summaryEl) {
+                    window.requestAnimationFrame(function () {
+                        window.requestAnimationFrame(function () {
+                            summaryEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        });
+                    });
                 }
             });
         document.getElementById('cart-items')
